@@ -1,3 +1,5 @@
+import { hash } from "bcryptjs";
+
 import { isUserExists } from "@/helpers/fetchFirebase";
 
 function checkInvalidInput(email, name, password) {
@@ -46,7 +48,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  const newUser = await createUser(email, name, password);
+  const hashedPassword = await hash(password, 12);
+
+  const newUser = await createUser(email, name, hashedPassword);
 
   res.status(201).json({
     message: "Selamat datang. Silakan login untuk masuk!",

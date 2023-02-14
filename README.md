@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 0.1.3 - Hash password
+
+- Menggunakan [bcryptjs](https://www.npmjs.com/package/bcryptjs) untuk _hashing_ kata sandi sebelum disimpan ke Firebase
+
 ### 0.1.2 - Add Sign Up functionality
 
 - Memvalidasi setiap _input_ yang dikirim oleh form di laman `/signup`
