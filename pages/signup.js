@@ -17,7 +17,16 @@ export default function SignUp() {
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
 
-    console.log(email, name, password);
+    const response = await fetch("/api/auth/signUp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, name, password }),
+    });
+    const data = await response.json();
+
+    console.log(data);
   };
 
   return (

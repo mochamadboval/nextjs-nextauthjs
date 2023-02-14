@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 0.1.2 - Add Sign Up functionality
+
+- Memvalidasi setiap _input_ yang dikirim oleh form di laman `/signup`
+- Menyimpan data ke Firebase (Realtime Database)
+- Memvalidasi apakah email sudah terdaftar atau belum
+
 ### 0.1.1 - Create Sign Up form
 
 - Membuat form di laman `/signup` dengan fungsionalitas sampai mencetak _input_ ke _Console_
