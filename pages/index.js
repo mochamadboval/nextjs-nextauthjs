@@ -1,6 +1,11 @@
 import Head from "next/head";
+import { getServerSession } from "next-auth/next";
 
-export default function Home() {
+import { authOptions } from "./api/auth/[...nextauth]";
+
+export default function Home(props) {
+  const { user } = props;
+
   return (
     <>
       <Head>
@@ -10,7 +15,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Hello world!</p>
+      <p>Hello, {user ? user.name : "Stranger"}!</p>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    return {
+      props: {
+        user: session.user,
+      },
+    };
+  }
+
+  return {
+    props: { user: null },
+  };
 }

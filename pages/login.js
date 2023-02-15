@@ -1,21 +1,43 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
+import AuthButton from "@/components/UI/AuthButton";
 import FormInput from "@/components/UI/FormInput";
 import SwitchPageButton from "@/components/UI/SwitchPageButton";
 
 export default function Login() {
+  const router = useRouter();
+
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isWaiting, setIsWaiting] = useState(false);
 
   const loginHandler = async (event) => {
     event.preventDefault();
 
+    setErrorMessage(null);
+    setIsWaiting(true);
+
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    console.log(email, password);
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (!result.error) {
+      router.replace("/");
+    } else {
+      setErrorMessage(result.error);
+      setIsWaiting(false);
+    }
   };
 
   return (
@@ -33,6 +55,11 @@ export default function Login() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="bg-white mx-auto my-4 p-4 rounded-lg shadow-sm w-72">
           <h2 className="font-semibold text-center text-xl">LOGIN</h2>
+          {errorMessage && (
+            <p className="bg-red-100 mt-4 px-4 py-3 rounded text-center text-red-700 text-sm">
+              {errorMessage}
+            </p>
+          )}
           <form className="flex flex-col gap-2 mt-4" onSubmit={loginHandler}>
             <FormInput
               name="Email"
@@ -46,9 +73,7 @@ export default function Login() {
               ref={passwordRef}
               type="password"
             />
-            <button className="bg-green-700 font-semibold mt-4 py-3 rounded text-green-50">
-              Masuk
-            </button>
+            <AuthButton isWaiting={isWaiting} name="Masuk" />
           </form>
           <SwitchPageButton name="Daftar" url="/signup" />
         </div>

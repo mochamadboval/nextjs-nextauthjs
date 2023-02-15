@@ -2,6 +2,14 @@
 
 ## Changelog
 
+### 0.1.6 - Add Login functionality
+
+- Di berkas `[...nextauth].js`, memvalidasi apakah data yang dikirim oleh form di laman `/login` sudah terdaftar atau belum
+- Menampilkan indikator bahwa data sedang diproses
+- Menampilkan pesan _error_ ketika data gagal diproses
+- Mengalihkan laman ke `/` setelah data berhasil diproses
+- Mengambil _session_ untuk menampilkan nama akun
+
 ### 0.1.5 - Install NextAuth.js
 
 - Menginstal paket `next-auth` dan menulis konfigurasi sesuai [dokumentasinya](https://next-auth.js.org/getting-started/example)
