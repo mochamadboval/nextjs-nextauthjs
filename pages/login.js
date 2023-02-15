@@ -1,8 +1,11 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { getServerSession } from "next-auth/next";
 import { signIn } from "next-auth/react";
 
 import { useRef, useState } from "react";
+
+import { authOptions } from "./api/auth/[...nextauth]";
 
 import AuthButton from "@/components/UI/AuthButton";
 import FormInput from "@/components/UI/FormInput";
@@ -80,4 +83,21 @@ export default function Login() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

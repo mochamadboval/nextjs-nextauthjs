@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 0.1.7 - Protect pages in session
+
+- Mengalihkan laman `/login` dan `/signup` ke `/` ketika memiliki _session_
+
 ### 0.1.6 - Add Login functionality
 
 - Di berkas `[...nextauth].js`, memvalidasi apakah data yang dikirim oleh form di laman `/login` sudah terdaftar atau belum
