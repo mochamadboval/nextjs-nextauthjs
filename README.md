@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 0.1.4 - Sign Up functionality completed
+
+- Menampilkan indikator bahwa data sedang diproses
+- Menampilkan pesan _error_ ketika data gagal diproses
+- Mengalihkan laman ke `/login` setelah data berhasil diproses
+
 ### 0.1.3 - Hash password
 
 - Menggunakan [bcryptjs](https://www.npmjs.com/package/bcryptjs) untuk _hashing_ kata sandi sebelum disimpan ke Firebase

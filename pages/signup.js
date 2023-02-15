@@ -1,17 +1,27 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
+import AuthButton from "@/components/UI/AuthButton";
 import FormInput from "@/components/UI/FormInput";
 import SwitchPageButton from "@/components/UI/SwitchPageButton";
 
 export default function SignUp() {
+  const router = useRouter();
+
   const emailRef = useRef();
   const nameRef = useRef();
   const passwordRef = useRef();
 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isWaiting, setIsWaiting] = useState(false);
+
   const signUpHandler = async (event) => {
     event.preventDefault();
+
+    setErrorMessage(null);
+    setIsWaiting(true);
 
     const email = emailRef.current.value;
     const name = nameRef.current.value;
@@ -26,7 +36,12 @@ export default function SignUp() {
     });
     const data = await response.json();
 
-    console.log(data);
+    if (response.status === 201) {
+      router.replace("/login");
+    } else {
+      setErrorMessage(data.message);
+      setIsWaiting(false);
+    }
   };
 
   return (
@@ -44,6 +59,11 @@ export default function SignUp() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="bg-white mx-auto my-4 p-4 rounded-lg shadow-sm w-72">
           <h2 className="font-semibold text-center text-xl">DAFTAR</h2>
+          {errorMessage && (
+            <p className="bg-red-100 mt-4 px-4 py-3 rounded text-center text-red-700 text-sm">
+              {errorMessage}
+            </p>
+          )}
           <form className="flex flex-col gap-2 mt-4" onSubmit={signUpHandler}>
             <FormInput
               name="Nama"
@@ -63,9 +83,7 @@ export default function SignUp() {
               ref={passwordRef}
               type="password"
             />
-            <button className="bg-green-700 font-semibold mt-4 py-3 rounded text-green-50">
-              Buat Akun
-            </button>
+            <AuthButton isWaiting={isWaiting} name="Buat Akun" />
           </form>
           <SwitchPageButton name="Login" url="/login" />
         </div>
