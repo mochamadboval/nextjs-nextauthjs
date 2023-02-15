@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 0.1.5 - Install NextAuth.js
+
+- Menginstal paket `next-auth` dan menulis konfigurasi sesuai [dokumentasinya](https://next-auth.js.org/getting-started/example)
+
 ### 0.1.4 - Sign Up functionality completed
 
 - Menampilkan indikator bahwa data sedang diproses
