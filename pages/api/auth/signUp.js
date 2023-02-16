@@ -1,3 +1,5 @@
+import crypto from "crypto";
+import nodemailer from "nodemailer";
 import { hash } from "bcryptjs";
 
 import { isUserExists } from "@/helpers/fetchFirebase";
@@ -14,17 +16,52 @@ function checkInvalidInput(email, name, password) {
   }
 }
 
-async function createUser(email, name, password) {
+async function createUser(email, name, password, verifyEmailToken) {
   const response = await fetch(`${process.env.FIREBASE_URL}/users.json`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: `${+new Date()}`, email, name, password }),
+    body: JSON.stringify({
+      id: `${+new Date()}`,
+      email,
+      name,
+      password,
+      verified: false,
+      verifyEmailToken,
+    }),
   });
   const data = await response.json();
 
   return data;
+}
+
+function sendEmailVerification(email, name, verifyEmailToken) {
+  const transporter = nodemailer.createTransport({
+    auth: {
+      user: process.env.ZOHO_USER,
+      pass: process.env.ZOHO_PASS,
+    },
+    host: "smtp.zoho.com",
+    port: 465,
+    secure: true,
+  });
+
+  const mailMessage = `
+    <p>Hai, ${name}.</p>
+    <p>
+      Aktivasi akun pada tautan berikut:
+      <a href="https://mb-nextjs-nextauthjs.vercel.app/activation?token=${verifyEmailToken}" target="_blank">
+        https://mb-nextjs-nextauthjs.vercel.app/activation?token=${verifyEmailToken}
+      </a>
+    </p>`;
+
+  transporter.sendMail({
+    from: process.env.ZOHO_USER,
+    to: email,
+    subject: "Aktivasi akun Next.js x NextAuth.js",
+    html: mailMessage,
+  });
 }
 
 export default async function handler(req, res) {
@@ -49,11 +86,19 @@ export default async function handler(req, res) {
   }
 
   const hashedPassword = await hash(password, 12);
+  const verifyEmailToken = crypto.randomUUID();
 
-  const newUser = await createUser(email, name, hashedPassword);
+  const newUser = await createUser(
+    email,
+    name,
+    hashedPassword,
+    verifyEmailToken
+  );
+
+  sendEmailVerification(email, name, verifyEmailToken);
 
   res.status(201).json({
-    message: "Selamat datang. Silakan login untuk masuk!",
+    message: "Pendaftaran berhasil. Cek email untuk aktivasi akun!",
     userKey: newUser.name,
   });
 }

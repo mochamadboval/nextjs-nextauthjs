@@ -11,19 +11,23 @@ export const authOptions = {
       async authorize(credentials) {
         const { email, password } = credentials;
 
-        const user = await isUserExists(email);
-        if (Object.keys(user).length === 0) {
+        const userKey = await isUserExists(email);
+        if (Object.keys(userKey).length === 0) {
           throw new Error("Email atau kata sandi salah!");
         }
 
-        const userKey = user[Object.keys(user)[0]];
+        const user = userKey[Object.keys(userKey)[0]];
 
-        const isPasswordValid = await compare(password, userKey.password);
+        const isPasswordValid = await compare(password, user.password);
         if (!isPasswordValid) {
           throw new Error("Email atau kata sandi salah!");
         }
 
-        return { email: userKey.email, image: null, name: userKey.name };
+        if (!user.verified) {
+          throw new Error("Akun belum teraktivasi. Cek email untuk aktivasi.");
+        }
+
+        return { email: user.email, image: null, name: user.name };
       },
     }),
   ],

@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 0.1.8 - Send email verification
+
+- Menggunakan [Nodemailer](https://nodemailer.com/about/), mengirim email untuk verifikasi akun baru
+- Membuat laman `/activation` sebagai tempat verifikasi akun
+- Menampilkan pesan _error_ ketika akun belum terverifikasi saat mencoba _login_
+
 ### 0.1.7 - Protect pages in session
 
 - Mengalihkan laman `/login` dan `/signup` ke `/` ketika memiliki _session_

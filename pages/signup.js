@@ -40,6 +40,8 @@ export default function SignUp() {
     const data = await response.json();
 
     if (response.status === 201) {
+      alert(data.message);
+
       router.replace("/login");
     } else {
       setErrorMessage(data.message);
