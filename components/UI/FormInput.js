@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 const FormInput = forwardRef(function FormInput(props, ref) {
-  const { name, placeholder, type } = props;
+  const { comparePassword, name, placeholder, type } = props;
 
   return (
     <div>
@@ -12,6 +12,7 @@ const FormInput = forwardRef(function FormInput(props, ref) {
         placeholder={placeholder}
         ref={ref}
         className="bg-neutral-50 mt-1 px-4 py-3 rounded shadow-inner text-sm w-full"
+        onChange={comparePassword && comparePassword}
         required
       />
     </div>

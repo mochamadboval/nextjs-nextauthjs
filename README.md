@@ -2,6 +2,11 @@
 
 ## Changelog
 
+### 0.1.9 - Two improvements
+
+- Menambahkan _input_ konfirmasi kata sandi pada form di laman `/signup`
+- Di laman `/`, menampilkan tombol ke laman `/login` saat belum ada _session_, dan menampilkan tombol _logout_ untuk keluar _session_
+
 ### 0.1.8 - Send email verification
 
 - Menggunakan [Nodemailer](https://nodemailer.com/about/), mengirim email untuk verifikasi akun baru

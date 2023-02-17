@@ -1,10 +1,16 @@
 import Head from "next/head";
+import Link from "next/link";
 import { getServerSession } from "next-auth/next";
+import { signOut } from "next-auth/react";
 
 import { authOptions } from "./api/auth/[...nextauth]";
 
 export default function Home(props) {
   const { user } = props;
+
+  const logoutHandler = () => {
+    signOut();
+  };
 
   return (
     <>
@@ -15,7 +21,26 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Hello, {user ? user.name : "Stranger"}!</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-white mx-auto my-4 p-4 rounded-lg shadow-sm text-center w-72">
+          <p>Hai, {user ? user.name : "orang asing"}!</p>
+          {user ? (
+            <button
+              className="bg-red-700 block mt-4 py-3 rounded text-red-50 w-full"
+              onClick={logoutHandler}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="block border border-neutral-900 mt-4 p-3 rounded text-center"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+      </div>
     </>
   );
 }

@@ -16,9 +16,22 @@ export default function SignUp() {
   const emailRef = useRef();
   const nameRef = useRef();
   const passwordRef = useRef();
+  const passwordConfirmationRef = useRef();
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isMatching, setIsMatching] = useState(true);
   const [isWaiting, setIsWaiting] = useState(false);
+
+  const comparePasswordHandler = () => {
+    const password = passwordRef.current.value;
+    const passwordConfirmation = passwordConfirmationRef.current.value;
+
+    if (passwordConfirmation !== password) {
+      setIsMatching(false);
+    } else {
+      setIsMatching(true);
+    }
+  };
 
   const signUpHandler = async (event) => {
     event.preventDefault();
@@ -29,6 +42,14 @@ export default function SignUp() {
     const email = emailRef.current.value;
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
+    const passwordConfirmation = passwordConfirmationRef.current.value;
+
+    if (passwordConfirmation !== password) {
+      setErrorMessage("Kata sandi tidak cocok.");
+      setIsWaiting(false);
+
+      return;
+    }
 
     const response = await fetch("/api/auth/signUp", {
       method: "POST",
@@ -87,7 +108,18 @@ export default function SignUp() {
               placeholder="******"
               ref={passwordRef}
               type="password"
+              comparePassword={comparePasswordHandler}
             />
+            <FormInput
+              name="Konfirmasi Kata Sandi"
+              placeholder="******"
+              ref={passwordConfirmationRef}
+              type="password"
+              comparePassword={comparePasswordHandler}
+            />
+            {!isMatching && (
+              <p className="text-red-700 text-xs">Kata sandi tidak cocok.</p>
+            )}
             <AuthButton isWaiting={isWaiting} name="Buat Akun" />
           </form>
           <SwitchPageButton name="Login" url="/login" />
