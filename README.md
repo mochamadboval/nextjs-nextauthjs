@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 0.1.10 - Create Change Password page
+
+- Di laman `/`, menambahkan tombol ke laman `/change-password`
+- Membuat form dan fungsionalitas untuk mengubah kata sandi akun di laman tersebut
+- Memperbaiki _warning_ untuk memastikan setiap _input_ memiliki nilai atribut `id` yang berbeda
+
 ### 0.1.9 - Two improvements
 
 - Menambahkan _input_ konfirmasi kata sandi pada form di laman `/signup`

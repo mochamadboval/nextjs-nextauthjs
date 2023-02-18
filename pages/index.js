@@ -25,12 +25,20 @@ export default function Home(props) {
         <div className="bg-white mx-auto my-4 p-4 rounded-lg shadow-sm text-center w-72">
           <p>Hai, {user ? user.name : "orang asing"}!</p>
           {user ? (
-            <button
-              className="bg-red-700 block mt-4 py-3 rounded text-red-50 w-full"
-              onClick={logoutHandler}
-            >
-              Logout
-            </button>
+            <>
+              <Link
+                href="/change-password"
+                className="block border border-neutral-900 mt-4 p-3 rounded text-center"
+              >
+                Ubah Kata Sandi
+              </Link>
+              <button
+                className="bg-red-700 block mt-2 py-3 rounded text-red-50 w-full"
+                onClick={logoutHandler}
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <Link
               href="/login"
